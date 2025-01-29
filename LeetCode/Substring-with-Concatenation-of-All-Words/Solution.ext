@@ -1,0 +1,52 @@
+/**
+ * @param {string} s
+ * @param {string[]} words
+ * @return {number[]}
+ */
+var findSubstring = function(s, words) {
+    if (!s || words.length === 0) return [];
+
+    let wordLen = words[0].length;   // Length of each word
+    let wordCount = words.length;    // Number of words
+    let totalLen = wordLen * wordCount;  // Length of the concatenated substring
+    let wordMap = new Map();
+    
+    // Store words frequency
+    for (let word of words) {
+        wordMap.set(word, (wordMap.get(word) || 0) + 1);
+    }
+
+    let result = [];
+
+    // Sliding window over different possible start positions
+    for (let i = 0; i < wordLen; i++) {
+        let left = i, right = i, seenMap = new Map(), count = 0;
+
+        while (right + wordLen <= s.length) {
+            let word = s.substring(right, right + wordLen);
+            right += wordLen;
+            
+            if (wordMap.has(word)) {
+                seenMap.set(word, (seenMap.get(word) || 0) + 1);
+                count++;
+
+                while (seenMap.get(word) > wordMap.get(word)) {
+                    let leftWord = s.substring(left, left + wordLen);
+                    seenMap.set(leftWord, seenMap.get(leftWord) - 1);
+                    left += wordLen;
+                    count--;
+                }
+
+                if (count === wordCount) {
+                    result.push(left);
+                }
+            } else {
+                seenMap.clear();
+                count = 0;
+                left = right;
+            }
+        }
+    }
+
+    return result;
+};
