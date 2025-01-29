@@ -1,0 +1,33 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var totalNQueens = function(n) {
+    let count = 0;
+
+    function solve(row, cols, diag1, diag2) {
+        if (row === n) {
+            count++;
+            return;
+        }
+
+        // Get available positions (bitmasking)
+        let availablePositions = (~(cols | diag1 | diag2)) & ((1 << n) - 1);
+
+        while (availablePositions) {
+            // Extract the rightmost available position
+            let position = availablePositions & -availablePositions;
+            availablePositions ^= position; // Remove the chosen position
+
+            solve(row + 1, cols | position, (diag1 | position) << 1, (diag2 | position) >> 1);
+        }
+    }
+
+    solve(0, 0, 0, 0);
+    return count;
+};
+
+// Example test cases
+console.log(totalNQueens(4)); // Output: 2
+console.log(totalNQueens(1)); // Output: 1
+console.log(totalNQueens(8)); // Output: 92
