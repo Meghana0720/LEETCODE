@@ -1,0 +1,39 @@
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getPermutation = function(n, k) {
+    let nums = []; // List of available numbers
+    let fact = 1;  // Factorial of (n-1)
+    let result = "";
+
+    // Populate nums with numbers from 1 to n and compute (n-1)!
+    for (let i = 1; i <= n; i++) {
+        nums.push(i);
+        if (i < n) fact *= i;
+    }
+
+    k--; // Convert to zero-based index
+
+    // Build the kth permutation
+    for (let i = n - 1; i >= 0; i--) {
+        let index = Math.floor(k / fact);
+        result += nums[index]; // Add the selected number
+        nums.splice(index, 1); // Remove used number
+
+        if (i > 0) {
+            k %= fact; // Update k for the next iteration
+            fact /= i; // Update factorial
+        }
+    }
+
+    return result;
+};
+
+// Example test cases
+console.log(getPermutation(3, 3)); // Output: "213"
+console.log(getPermutation(4, 9)); // Output: "2314"
+console.log(getPermutation(3, 1)); // Output: "123"
+
+    
