@@ -1,7 +1,17 @@
-Input: s = "rabbbit", t = "rabbit"
-Output: 3
-Explanation:
-As shown below, there are 3 ways you can generate "rabbit" from s.
-rabbbit
-rabbbit
-rabbbit
+var numDistinct = function(s, t) {
+    let m = s.length, n = t.length;
+    
+    let dp = new Array(n + 1).fill(0);
+    dp[0] = 1; 
+
+    for (let i = 1; i <= m; i++) {
+        
+        for (let j = n; j > 0; j--) {
+            if (s[i - 1] === t[j - 1]) {
+                dp[j] += dp[j - 1];
+            }
+        }
+    }
+
+    return dp[n];
+};
