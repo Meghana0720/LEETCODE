@@ -1,0 +1,55 @@
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {string}
+ */
+var minWindow = function(s, t) {
+    if (s.length < t.length) return ""; // Edge case: If s is shorter than t, return ""
+
+    let tFreq = new Map(); // Frequency map for characters in t
+    let window = new Map(); // Window frequency map
+
+    for (let char of t) {
+        tFreq.set(char, (tFreq.get(char) || 0) + 1);
+    }
+
+    let left = 0, right = 0;
+    let required = tFreq.size; // Number of unique chars in t that must be in window
+    let formed = 0; // Number of chars that satisfy the frequency requirement in window
+    let minLength = Infinity, minLeft = 0;
+
+    while (right < s.length) {
+        let char = s[right];
+
+        // Add current character to window map
+        window.set(char, (window.get(char) || 0) + 1);
+
+        // Check if character matches the required frequency in t
+        if (tFreq.has(char) && window.get(char) === tFreq.get(char)) {
+            formed++;
+        }
+
+        // Try to shrink the window when all required characters are present
+        while (formed === required) {
+            if (right - left + 1 < minLength) {
+                minLength = right - left + 1;
+                minLeft = left;
+            }
+
+            // Remove the left character from the window
+            let leftChar = s[left];
+            window.set(leftChar, window.get(leftChar) - 1);
+
+            // If removing leftChar causes a mismatch with t, decrease formed count
+            if (tFreq.has(leftChar) && window.get(leftChar) < tFreq.get(leftChar)) {
+                formed--;
+            }
+
+            left++; // Shrink window
+        }
+
+        right++; // Expand window
+    }
+
+    return minLength === Infinity ? "" : s.substring(minLeft, minLeft + minLength);
+};
