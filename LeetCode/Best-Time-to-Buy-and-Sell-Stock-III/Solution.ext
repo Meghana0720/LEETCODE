@@ -1,19 +1,4 @@
-/**
- * @param {number[]} prices
- * @return {number}
- */
-var maxProfit = function(prices) {
-    if (prices.length === 0) return 0;
-
-    let buy1 = -Infinity, sell1 = 0;
-    let buy2 = -Infinity, sell2 = 0;
-
-    for (let price of prices) {
-        buy1 = Math.max(buy1, -price);      // First buy
-        sell1 = Math.max(sell1, buy1 + price);  // First sell
-        buy2 = Math.max(buy2, sell1 - price);  // Second buy
-        sell2 = Math.max(sell2, buy2 + price);  // Second sell
-    }
-
-    return sell2;
-};
+Input: prices = [3,3,5,0,0,3,1,4]
+Output: 6
+Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
