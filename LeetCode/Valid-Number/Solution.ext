@@ -1,0 +1,46 @@
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isNumber = function(s) {
+    s = s.trim(); // Remove leading and trailing spaces
+    let seenDigit = false, seenDot = false, seenE = false;
+    let countSigns = 0;
+
+    for (let i = 0; i < s.length; i++) {
+        let c = s[i];
+
+        if (c >= '0' && c <= '9') {
+            seenDigit = true; // At least one digit should be there
+        } else if (c === '+' || c === '-') {
+            // Sign should only appear at the start or immediately after 'e' or 'E'
+            if (countSigns > 1 || (i > 0 && s[i - 1] !== 'e' && s[i - 1] !== 'E')) {
+                return false;
+            }
+            countSigns++;
+        } else if (c === '.') {
+            // Dot should not appear after 'e' and should appear only once
+            if (seenDot || seenE) {
+                return false;
+            }
+            seenDot = true;
+        } else if (c === 'e' || c === 'E') {
+            // 'e' should come only once and there should be at least one digit before it
+            if (seenE || !seenDigit) {
+                return false;
+            }
+            seenE = true;
+            seenDigit = false; // Reset seenDigit because we need a digit after 'e'
+        } else {
+            return false; // Invalid character
+        }
+    }
+
+    return seenDigit; // Ensure at least one digit was encountered
+};
+
+// Test Cases
+console.log(isNumber("0"));         // true
+console.log(isNumber("e"));         // false
+console.log(isNumber("."));         // false
+
