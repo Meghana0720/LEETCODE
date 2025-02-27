@@ -1,0 +1,21 @@
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isIsomorphic = function(s, t) {
+    const maps=new Map();
+    const mapt=new Map();
+    if(s.length!==t.length) return false;
+    for (let i=0;i<s.length;i++){
+        charts=s[i];
+        chartt=t[i];
+        if((maps.has(charts) && maps.get(charts)!==chartt) ||
+        (mapt.has(chartt) && mapt.get(chartt)!==charts)){
+            return false;
+        }
+        maps.set(charts,chartt);
+        mapt.set(chartt,charts);
+    }
+    return true;
+};
