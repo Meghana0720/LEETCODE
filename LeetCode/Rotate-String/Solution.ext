@@ -1,2 +1,15 @@
-Input: s = "abcde", goal = "cdeab"
-Output: true
+/**
+ * @param {string} s
+ * @param {string} goal
+ * @return {boolean}
+ */
+var rotateString = function(s, goal) {
+    if(s.length!==goal.length) return false;
+    for(let i=0;i<s.length;i++){
+        s=s.slice(1)+s[0];
+        if(s===goal){
+            return true
+        }
+    }
+    return false;
+};
