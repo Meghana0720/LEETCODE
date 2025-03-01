@@ -1,2 +1,30 @@
-Input: s = "the sky is blue"
-Output: "blue is sky the"
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function(s) {
+    // Step 1: Trim spaces and split words correctly (handles multiple spaces)
+    let arr = s.trim().split(/\s+/);
+    
+    // Step 2: Reverse the entire array of words
+    reverse(arr, 0, arr.length - 1);
+    
+    // Step 3: Join words with a single space and return
+    return arr.join(" ");
+
+    // Helper function to reverse elements in place
+    function reverse(arr, left, right) {
+        while (left < right) {
+            [arr[left], arr[right]] = [arr[right], arr[left]];
+            left++;
+            right--;
+        }
+    }   
+};
+
+// Example Usage:
+console.log(reverseWords("  the   sky   is blue  "));  // Output: "blue is sky the"
+console.log(reverseWords("hello world"));              // Output: "world hello"
+console.log(reverseWords("a good   example"));         // Output: "example good a"
+console.log(reverseWords("  Bob    loves  Alice   ")); // Output: "Alice loves Bob"
+console.log(reverseWords("  OneWord  "));             // Output: "OneWord"
