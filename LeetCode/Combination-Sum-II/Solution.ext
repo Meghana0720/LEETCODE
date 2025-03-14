@@ -1,8 +1,26 @@
-Input: candidates = [10,1,2,7,6,1,5], target = 8
-Output: 
-[
-[1,1,6],
-[1,2,5],
-[1,7],
-[2,6]
-]
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum2 = function(candidates, target) {
+    function combine(ind,candidates,target,ds,ans){
+        if(target === 0){
+            ans.push([...ds]);
+            return;
+        }
+        for(let i=ind;i<candidates.length;i++){
+            if(i>ind && candidates[i] === candidates[i-1]) continue;
+            if(target<candidates[i]) break;
+            ds.push(candidates[i]);
+            combine(i+1,candidates,target-candidates[i],ds,ans);
+            ds.pop();
+        }
+    }
+    let ans=[];
+    candidates.sort((a, b) => a - b);
+    combine(0,candidates,target,[],ans);
+    return ans
+
+    
+};
