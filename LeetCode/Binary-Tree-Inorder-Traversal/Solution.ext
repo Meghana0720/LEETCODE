@@ -23,43 +23,15 @@
  * @return {number[]}
  */
 function inorderTraversal(root) {
-    const result = [];
-
-    function traverse(node) {
-        if (node === null) return;
-        traverse(node.left); 
-        result.push(node.val); 
-        traverse(node.right); 
-    }
-
-    traverse(root);
-    return result;
-}
-
-function createBinaryTree(arr) {
-    if (!arr.length) return null;
-
-    const nodes = arr.map(val => (val === null ? null : new TreeNode(val)));
-
-    for (let i = 0; i < arr.length; i++) {
-        if (nodes[i] !== null) {
-            nodes[i].left = nodes[2 * i + 1] || null;
-            nodes[i].right = nodes[2 * i + 2] || null;
+    function inorder(root,arr){
+        if (root === null){
+            return;
         }
+        inorder(root.left,arr);
+        arr.push(root.val);
+        inorder(root.right,arr);
     }
-
-    return nodes[0];
+    const arr=[];
+    inorder(root,arr);
+    return arr; 
 }
-
-const root1 = createBinaryTree([1, null, 2, 3]);
-console.log(inorderTraversal(root1)); 
-
-
-const root2 = createBinaryTree([1, 2, 3, 4, 5, null, 8, null, null, 6, 7, 9]);
-console.log(inorderTraversal(root2)); 
-
-const root3 = createBinaryTree([]);
-console.log(inorderTraversal(root3)); 
-
-const root4 = createBinaryTree([1]);
-console.log(inorderTraversal(root4)); 
